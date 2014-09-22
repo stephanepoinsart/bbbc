@@ -20,10 +20,8 @@ if (isset($_POST['delete'])) {
 
 $conflist=$db->listconf($login);
 
-include('inc/header.php');
-
-
-
+require_once('inc/header.php');
+showbuffered();
 
 
 function createconf($newconfname) {
@@ -88,9 +86,6 @@ echo "<h2>Créer une nouvelle conf</h2>
 display_conflist($conflist);
 
 echo "</form>";
-?>
 
-
-<?php
-include('inc/footer.php');
+require_once('inc/footer.php');
 ?>

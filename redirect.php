@@ -1,6 +1,4 @@
 <?php
-$pagetitle="BBB conference";
-
 require_once('inc/config.php');
 require_once('inc/database.php');
 require_once('inc/utility.php');
@@ -20,6 +18,7 @@ if (!isset($_GET['confname'])) {
 	showerror("Le lien de la conférence ne semble pas valide. Vérifiez qu'il ai bien été copié en entier. [confname manquant]");
 }
 $confname=$_GET['confname'];
+$pagetitle="BBB - $confname";
 
 if (!isset($_GET['role']) || $_GET['role']!='admin') {
 	$role='user';
@@ -28,9 +27,13 @@ if (!isset($_GET['role']) || $_GET['role']!='admin') {
 }
 
 if (!isset($_GET['hash'])) {
-	showerror("Le lien de la conférence ne semble pas valide. Vérifiez qu'il ai bien été copié en entier. [hash manquant]");
+	showerror("Le lien de la conférence ne semble pas valide. Vérifiez qu'il ai bien été copié en entier. [code de contrôle manquant]");
 }
 $hash=$_GET['hash'];
+$urlhash=gensitehash($confcreator, $confname, $role);
+if ($hash!=$urlhash) {
+	showerror("Le lien de la conférence ne semble pas valide. Vérifiez qu'il ai bien été copié en entier. [les codes de contrôles ne correspondent pas]");
+}
 
 
 $db=new Db;
@@ -38,10 +41,9 @@ if (!$db->confexists($confcreator, $confname)) {
 	showerror("la conférence $confname de l'utilisateur $confcreator a été supprimée ou désactivée. Recontactez l'utilisateur pour lui demander de recréer la conférence ou vous donner un autre lien.");
 }
 
-// ### TODO : validate checksum !!!
+require_once('inc/header.php');
 
-
-include('inc/header.php');
+showbuffered();
 
 if (!isset($_GET['guestname'])) {
 	echo "<h2>Comment vous appelez-vous ?</h2>
@@ -64,17 +66,21 @@ if (!isset($_GET['guestname'])) {
 		$bbbjoinurl=genbbbjoinurl(urlencode($confcreator), urlencode($confname), $role, urlencode($guestname));
 		echo "<iframe src=\"$bbbjoinurl\"><a href=\"$bbbjoinurl\">Rejoindre la conférence</a></iframe>";
 	}
-	showbar();
 }
 
 function showbar() {
-	echo "<div id=\"bar\">";
-	echo "<a href=\"".SITE_URL."\">H<img alt=\"Créez et gérrez vos conférences (utilisateurs UTC)\" src=\"\"></a>";
-	echo "<a id=\"btn_fs\" href=\"#\" onClick=\"toggleFullScreen();\">F<img alt=\"Plein écran\" src=\"\"></a>";
-	echo "</div>";
+	echo "<div id=\"bar\">
+		<a href=\"".SITE_URL."\">H<img alt=\"Créez et gérrez vos conférences (utilisateurs UTC)\" src=\"\"></a>
+		<a id=\"btn_fs\" href=\"#\" onClick=\"toggleFullScreen();\">F<img alt=\"Plein écran\" src=\"\"></a>
+		<div id=\"pingtool\"><span class=\"numericping\"><span></div>
+		</div>";
+	
 }
+echo "<script type=\"text/javascript\" src=\"3rdparty/jquery-2.1.1.js\">";
 
-echo "<script src=\"static/fullscreen.js\"></script>";
+showbar();
 
-include('inc/footer.php');
+echo "</script><script src=\"static/fullscreen.js\"></script>";
+
+require_once('inc/footer.php');
 ?>
