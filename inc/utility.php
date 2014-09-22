@@ -16,7 +16,6 @@ $successbuffer='';
 //
 // buffering system : if the message comes too early, we buffer it until the headers are sent 
 function showerror($e) {
-	global $error_must_stop, $message_already_shown;
 	require_once('inc/header.php');
 	showmessage($e, 'errormsg');
 	require_once('inc/footer.php');
@@ -32,11 +31,10 @@ function showsuccess($s) {
 }
 
 function showbuffered() {
-	if ($errorbuffer)
-		showmessage($errorbuffer, 'errormsg');
+	global $successbuffer;
 	if ($successbuffer)
 		showmessage($successbuffer, 'successmsg');
-	$message_already_shown
+	$message_already_shown=1;
 }
 
 function showmessage($m, $msgtype) {

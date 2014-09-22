@@ -64,19 +64,19 @@ if (!isset($_GET['guestname'])) {
 		showerror("Une erreur interne a été générée par BBB lors de la demande de création de conférence.");
 	} else {
 		$bbbjoinurl=genbbbjoinurl(urlencode($confcreator), urlencode($confname), $role, urlencode($guestname));
-		echo "<iframe src=\"$bbbjoinurl\"><a href=\"$bbbjoinurl\">Rejoindre la conférence</a></iframe>";
+		echo "<!--iframe src=\"$bbbjoinurl\"><a href=\"$bbbjoinurl\">Rejoindre la conférence</a></iframe-->";
 	}
 }
 
 function showbar() {
 	echo "<div id=\"bar\">
-		<a href=\"".SITE_URL."\">H<img alt=\"Créez et gérrez vos conférences (utilisateurs UTC)\" src=\"\"></a>
-		<a id=\"btn_fs\" href=\"#\" onClick=\"toggleFullScreen();\">F<img alt=\"Plein écran\" src=\"\"></a>
-		<div id=\"pingtool\"><span class=\"numericping\"><span></div>
+		<div id=\"pingtool\"><div id=\"pinggraph\"></div><span id=\"numericping\"></span></div> |
+		<a href=\"".SITE_URL."\"><img alt=\"Créez et gérrez vos conférences (utilisateurs UTC)\" src=\"\"></a> |
+		<a id=\"btn_fs\" href=\"#\" onClick=\"toggleFullScreen();\"><img alt=\"Plein écran\" src=\"\"></a>		
 		</div>";
 	
 }
-echo "<script type=\"text/javascript\" src=\"3rdparty/jquery-2.1.1.js\">";
+echo "<script type=\"text/javascript\" src=\"3rdparty/jquery-2.1.1.js\"></script>";
 
 showbar();
 

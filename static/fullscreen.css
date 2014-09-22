@@ -23,3 +23,18 @@ iframe {
 	-moz-box-sizing: border-box;
 	-webkit-box-sizing: border-box;
 }
+
+#pingtool {
+	display:inline-block;
+}
+#pinggraph {
+	display:inline-block;
+	vertical-align:bottom;
+}
+.pingbar {
+	display:inline-block;
+	width:12px;
+	height:0px;
+	background-color:#000000;
+	vertical-align:bottom;
+}
