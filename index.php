@@ -1,9 +1,9 @@
 <?php
 $pagetitle="BBB control";
 
-require_once('config.php');
-require_once('database.php');
-require_once('utility.php');
+require_once('inc/config.php');
+require_once('inc/database.php');
+require_once('inc/utility.php');
 
 
 $login="spoinsar";
@@ -20,7 +20,7 @@ if (isset($_POST['delete'])) {
 
 $conflist=$db->listconf($login);
 
-include('header.php');
+include('inc/header.php');
 
 
 
@@ -92,5 +92,5 @@ echo "</form>";
 
 
 <?php
-include('footer.php');
+include('inc/footer.php');
 ?>

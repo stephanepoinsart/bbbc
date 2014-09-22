@@ -1,9 +1,9 @@
 <?php
 $pagetitle="BBB conference";
 
-require_once('config.php');
-require_once('database.php');
-require_once('utility.php');
+require_once('inc/config.php');
+require_once('inc/database.php');
+require_once('inc/utility.php');
 
 
 $login="spoinsar";
@@ -41,7 +41,7 @@ if (!$db->confexists($confcreator, $confname)) {
 // ### TODO : validate checksum !!!
 
 
-include('header.php');
+include('inc/header.php');
 
 if (!isset($_GET['guestname'])) {
 	echo "<h2>Comment vous appelez-vous ?</h2>
@@ -74,7 +74,7 @@ function showbar() {
 	echo "</div>";
 }
 
-echo "<script src=\"fullscreen.js\"></script>";
+echo "<script src=\"static/fullscreen.js\"></script>";
 
-include('footer.php');
+include('inc/footer.php');
 ?>
