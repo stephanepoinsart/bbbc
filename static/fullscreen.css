@@ -4,12 +4,6 @@ html, body {
 	height: 100%;
 }
 
-#bar {
-	height: 24px;
-	right: 0px;
-	bottom: 0px;
-	position: absolute;
-}
 
 iframe {
 	position: absolute;
@@ -24,17 +18,3 @@ iframe {
 	-webkit-box-sizing: border-box;
 }
 
-#pingtool {
-	display:inline-block;
-}
-#pinggraph {
-	display:inline-block;
-	vertical-align:bottom;
-}
-.pingbar {
-	display:inline-block;
-	width:12px;
-	height:0px;
-	background-color:#000000;
-	vertical-align:bottom;
-}

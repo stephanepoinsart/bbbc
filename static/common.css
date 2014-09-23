@@ -1,0 +1,39 @@
+#bar {
+	height: 24px;
+	right: 0px;
+	bottom: 0px;
+	position: absolute;
+	overflow: hidden;
+}
+
+#pingtool {
+	display:inline-block;
+	padding:0px;
+	margin:0px;
+}
+#pinggraph {
+	display:inline-block;
+	vertical-align:bottom;
+	padding:0px;
+	margin:0px;
+}
+
+.pingbar {
+	display:inline-block;
+	width:12px;
+	height:0px;
+	background-color:#000000;
+	vertical-align:bottom;
+	padding:0px;
+	margin:0px;
+}
+
+#pingnumeric {
+	display:inline-block;
+	width:30px;
+	color:#666666;
+	font-family: monospace;
+	text-align:right;
+	padding:0px;
+	margin:0px;
+}

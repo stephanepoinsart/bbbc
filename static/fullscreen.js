@@ -23,20 +23,20 @@ function toggleFullScreen() {
 
 function updateping(success, date) {
 	var ping = new Date - date;
-	$("#numericping").text(ping);
+	$("#pingnumeric").text(ping);
 	window.setTimeout(runping,3000);
 	$(".pingbar").first().remove();
 	
-	var height=Math.round(24*ping/40);
+	var height=Math.ceil(24*ping/1000);
 	if (height>24)
 		height=24;
 	
 	var color="#FF0000";
 	if (!success)
 		color="#000000";
-	else if (ping<15)
+	else if (ping<150)
 		color="#00EF00";
-	else if (ping<19)
+	else if (ping<300)
 		color="#FF7F00";
 	$("#pinggraph").append("<span class=\"pingbar\" style=\"height:"+height+"px;background-color:"+color+"\">&nbsp;</span>");
 }
