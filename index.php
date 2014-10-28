@@ -6,7 +6,11 @@ require_once('inc/database.php');
 require_once('inc/utility.php');
 
 
-$login="spoinsar";
+require_once('inc/cas.php');
+
+if (!$login) {
+	showerror('Problème d\'authentification... Login / mot de passe incorrect ?');
+}
 
 $db=new Db;
 
@@ -21,8 +25,8 @@ if (isset($_POST['delete'])) {
 $conflist=$db->listconf($login);
 
 require_once('inc/header.php');
-showbuffered();
-
+if (!$login)
+	showerror("Impossible de valider votre login, réessayez de vous connecter...");
 
 function createconf($newconfname) {
 	global $login, $db;
@@ -33,7 +37,7 @@ function createconf($newconfname) {
 		showerror("Le nom de conférence est trop long");
 	}
 	if ($db->insertconf($login, $newconfname)) {
-		showsuccess("La conférence $s a bien été créée");
+		showsuccess("La conférence $newconfname a bien été créée");
 	}
 }
 
@@ -51,41 +55,56 @@ function deleteconf($id, $confname) {
 function display_conflist($conflist) {
 	global $login;
 	
-	echo "<table><tr><th>Nom</th><th>Lien admin</th><th>Lien utilisateur</th><th>Date de création</th><th>suppr.</th></tr>";
+	echo "<table><thead><tr><th>Nom</th><th>Lien admin</th><th>Lien utilisateur</th><th>Date de création</th><th>suppr.</th></tr></thead><tbody>";
 	
 	foreach ($conflist as $id => $data) {
 		$adminurl=gensiteurl($login, $id, $data['confname'], 'admin');
 		$userurl=gensiteurl($login, $id, $data['confname'], 'user');
 		echo "<tr>
-				<td>".$data['confname']."</td>
+				<th>".$data['confname']."</th>
 				<td><a href=\"$adminurl\">lien admin</a></td>
-				<td><a href=\"$userurl\">lien participant</a></td>
+				<td><a href=\"$userurl\">lien utilisateur</a></td>
 				<td>".$data['createtime']."</td>
 				<td>
 						<form method=\"POST\" action=\"".SITE_URL."\"/>
 						<input type=\"hidden\" name=\"id\" value=\"".$id."\"/>
 						<input type=\"hidden\" name=\"confname\" value=\"".$data['confname']."\"/>
-						<input type=\"submit\" name=\"delete\" value=\"x\" title=\"supprimer\"/>
+						<input type=\"submit\" name=\"delete\" value=\"x\" alt=\"supprimer webconf ".$data['confname']."\" title=\"supprimer\"/>
 						</form>
 				</td>
 			</tr>";
 	}
-	echo "</table>";
+	echo "</tbody></table>";
 }
 
+echo "<header>
+			<h1>Gérrez vos webconférences</h1>
+			<div id=\"loginblock\"><span id=\"logindisplay\">$login</span> <span id=\"logout\"><form method=\"POST\" action=\"?logout\"><input type=\"submit\" value=\"déconnexion\"></input></form></span></div>
+	</header>
+	<main>";
 
+showbuffered();
+?>
+<h2>Comment organiser votre conférence ?</h2>
+<ul>
+<li>Créez au moins une conférence (ou plusieurs pour isoler les participants, plus sécurisé...)</li>
+<li>Donnez le lien "admin" aux orateurs en qui vous avez confiance, et le lien "utilisateurs" aux autres participants (étudiants...)</li>
+<li>Demandez à chaque participant de tester à l'avance pour éviter d'être surpris par des problèmes (microphone...)</li>
+</ul>
+<p>Contact : <a href="mailto:cap@utc.fr">Cellule d'Appui Pédagogique &lt;cap@utc.fr&gt;</a></p>
 
+<?php 
 echo "<h2>Créer une nouvelle conf</h2>
 	<form method=\"POST\" action=\"".SITE_URL."\">
 		<label for=\"newconfname\">Nom de conférence :</label>
 		<input type=\"text\" name=\"newconfname\" id=\"newconfname\"/>
-		<input type=\"submit\" name=\"create\" value=\"créer\"/>
+		<input type=\"submit\" name=\"create\" value=\"Créer\"/>
 	</form>
 	<h2>Liste des confs</h2>";
 
 display_conflist($conflist);
 
-echo "</form>";
 
+echo "</main>";
 require_once('inc/footer.php');
 ?>

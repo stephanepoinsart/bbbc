@@ -6,7 +6,7 @@
 
 require_once('config.php');
 
-$messages_already_shown=0;
+$messages_already_shown=false;
 $successbuffer='';
 
 // a simple message display system
@@ -17,24 +17,29 @@ $successbuffer='';
 // buffering system : if the message comes too early, we buffer it until the headers are sent 
 function showerror($e) {
 	require_once('inc/header.php');
+	echo "<main>";
 	showmessage($e, 'errormsg');
+	echo "<a href=\"".$_SERVER["REQUEST_URI"]."\">Retour</a></main>";
 	require_once('inc/footer.php');
 	die();
 
 }
 function showsuccess($s) {
-	global $message_already_shown;
-	if ($message_already_shown)
+	global $messages_already_shown, $successbuffer;
+	if ($messages_already_shown)
 		showmessage($s, 'successmsg');
 	else
-		$sucessbuffer=$s;
+		$successbuffer=$s;
 }
 
 function showbuffered() {
-	global $successbuffer;
-	if ($successbuffer)
+	global $messages_already_shown, $successbuffer;
+	
+	if ($successbuffer) {
+		
 		showmessage($successbuffer, 'successmsg');
-	$message_already_shown=1;
+	}
+	$messages_already_shown=true;
 }
 
 function showmessage($m, $msgtype) {

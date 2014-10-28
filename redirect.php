@@ -4,7 +4,6 @@ require_once('inc/database.php');
 require_once('inc/utility.php');
 
 
-$login="spoinsar";
 if (!isset($login)) {
 	$login='';
 }
@@ -22,8 +21,10 @@ $pagetitle="BBB - $confname";
 
 if (!isset($_GET['role']) || $_GET['role']!='admin') {
 	$role='user';
+	$strrole='utilisateur';
 } else {
 	$role='admin';
+	$strrole='administrateur';
 }
 
 if (!isset($_GET['hash'])) {
@@ -46,16 +47,47 @@ require_once('inc/header.php');
 showbuffered();
 
 if (!isset($_GET['guestname'])) {
-	echo "<h2>Comment vous appelez-vous ?</h2>
-		<form method=\"GET\" action=\"".SITE_URL."redirect.php\">
-		<label for=\"guestname\">Votre nom :</label>
-		<input type=\"text\" name=\"guestname\" id=\"guestname\" value=\"$login\"/>
-		<input type=\"hidden\" name=\"confcreator\" value=\"$confcreator\"/>
-		<input type=\"hidden\" name=\"confname\" value=\"$confname\"/>
-		<input type=\"hidden\" name=\"role\" value=\"$role\"/>
-		<input type=\"hidden\" name=\"hash\" value=\"$hash\"/>
-		<input type=\"submit\" name=\"connect\" value=\"Se connecter\"/>
-		</form>";
+	echo "<header>
+			<h1>Se connecter à une webconférence</h1>
+	</header>
+	<main>
+		<div id=\"confinfo\">Conférence \"$confname\" crée par \"$confcreator\", accès $strrole</div>
+		<h2>Lien à communiquer aux participants...</h2>
+			<p>Voici le lien vers cette page (lien $strrole), que vous pouvez copier-coller et transmettre aux autres participants pour qu'ils puissent se connecter :</p>
+			<div class=\"conflink\">";
+				// based on : http://stackoverflow.com/questions/5216172/getting-current-url
+				$currenturl = 'http';
+				if (isset($_SERVER['HTTPS']) && filter_var($_SERVER['HTTPS'], FILTER_VALIDATE_BOOLEAN)) {
+					$currenturl .= "s";
+				}
+				$currenturl .= "://";
+				if ($_SERVER["SERVER_PORT"] != "80") {
+					$currenturl .= $_SERVER["SERVER_NAME"].":".$_SERVER["SERVER_PORT"].$_SERVER["REQUEST_URI"];
+				} else {
+					$currenturl .= $_SERVER["SERVER_NAME"].$_SERVER["REQUEST_URI"];
+				}
+			echo "<a href=\"$currenturl\" title=\"Lien vers cette page\">$currenturl</a></div>
+			<p>N'oubliez pas de demander à toutes les personnes que vous invitez de bien vérifier à l'avance si la conférence fonctionne correctement sur leur ordinateur.</p>  
+		<h2>Test de configuration...</h2>
+			<div class=\"diagitem\">Flash player : <span id=\"flashmessage\">détection en cours...</span></div>
+			<div class=\"diagitem\">Réseau : <span id=\"networkmessage\">&nbsp;</span>
+				<ul>
+					<li class=\"diagdetail\">Download : <span id=\"downloadspeed\">détection en cours...</span></li>
+					<li class=\"diagdetail\">Upload : <span id=\"uploadspeed\">détection en cours...</span></li>
+					<li class=\"diagdetail\">Max ping : <span id=\"pingdiag\">détection en cours...</span></li>
+				</ul>
+			</div>
+			<div class=\"diagitem\">Navigateur : <span id=\"browsermessage\">détection en cours...</span></div>
+		<h2>Se connecter à la conférence...</h2>
+			<form method=\"GET\" action=\"".SITE_URL."redirect.php\">
+			<label for=\"guestname\">Votre nom :</label>
+			<input type=\"text\" name=\"guestname\" id=\"guestname\" value=\"$login\"/>
+			<input type=\"hidden\" name=\"confcreator\" value=\"$confcreator\"/>
+			<input type=\"hidden\" name=\"confname\" value=\"$confname\"/>
+			<input type=\"hidden\" name=\"role\" value=\"$role\"/>
+			<input type=\"hidden\" name=\"hash\" value=\"$hash\"/>
+			<input type=\"submit\" name=\"connect\" value=\"Se connecter\"/>
+			</form>";
 } else {
 	$guestname=$_GET['guestname'];
 	$bbbcreateurl=genbbbcreateurl(urlencode($confcreator), urlencode($confname), $role);
@@ -71,17 +103,22 @@ if (!isset($_GET['guestname'])) {
 function showbar() {
 	echo "<div id=\"bar\">
 		<div id=\"pingtool\" title=\"qualité de votre connexion : rouge ou supérieur à 300 = problème\"><div id=\"pinggraph\"></div><span id=\"pingnumeric\"></span></div> |
-		
-		<a href=\"".SITE_URL."\"><img alt=\"Créez et gérrez vos conférences (utilisateurs UTC)\" src=\"\"></a> |
-		<a id=\"btn_fs\" href=\"#\" onClick=\"toggleFullScreen();\"><img alt=\"Plein écran\" src=\"\"></a>		
+		<a href=\"".SITE_URL."\" target=\"_blank\"><img class=\"icon\" alt=\"Créez et gérrez vos conférences (utilisateurs UTC)\" src=\"static/img/server_go.png\"/></a> |
+		<a id=\"btn_fs\" href=\"#\" onClick=\"toggleFullScreen();\"><img class=\"icon\" alt=\"Plein écran\" src=\"static/img/arrow_out.png\"/></a>
 		</div>";
-	
 }
-echo "<script type=\"text/javascript\" src=\"3rdparty/jquery-2.1.1.js\"></script>";
+
+echo "<script type=\"text/javascript\" src=\"3rdparty/jquery-2.1.1.js\"></script><script type=\"text/javascript\" src=\"3rdparty/ua-parser.js\"></script>";
 
 showbar();
 
-echo "<script src=\"static/fullscreen.js\"></script>";
-
+echo "<script src=\"static/js/fullscreen.js\"></script>";
+if (!isset($guestname)) {
+	echo "<script src=\"3rdparty/flash_detect.js\"></script>";
+	echo "<script>window.setTimeout(display_flash_version(),500); window.setTimeout(display_browser_version(),800); window.setTimeout(checkspeed(), 2500);</script>";
+}
+if (!isset($_GET['guestname'])) {
+	echo "</main>";
+}
 require_once('inc/footer.php');
 ?>

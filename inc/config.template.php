@@ -28,5 +28,13 @@ define("BBB_URL", "http://bbb.utc.fr/bigbluebutton/");
 define("BBB_SECRET", "0123456789abcde0123456789abcde");
 
 
+// Full Hostname of your CAS Server
+$cas_host = 'cas.utc.fr';
+// Context of the CAS Server
+$cas_context = '/cas';
+// Port of your CAS server. Normally for a https server it's 443
+$cas_port = 443;
+
+
 
 ?>
