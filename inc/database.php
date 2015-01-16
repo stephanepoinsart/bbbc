@@ -11,6 +11,9 @@ class Db {
 	var $insertconf_stmt;
 	var $activateconf_stmt;
 	
+	var $logguest_stmt;
+	var $listguest_stmt;
+	
 	function __construct() {
 		try {
 			$this->dbh = new PDO("mysql:host=localhost;dbname=".DB_NAME, DB_LOGIN, DB_PASSWORD);
@@ -26,6 +29,8 @@ class Db {
 			$this->deleteconf_stmt=$this->dbh->prepare("DELETE FROM conf WHERE id=:id AND username=:username");
 			$this->insertconf_stmt=$this->dbh->prepare("INSERT INTO conf (confname, username) VALUES (:confname, :username)");
 			$this->confexists_stmt=$this->dbh->prepare("SELECT count(*) FROM conf WHERE confname=:confname AND username=:username");
+			
+			$this->logguest_stmt=$this->dbh->prepare("INSERT INTO lastlogin (confid, guestname) SELECT conf.id, :guestname FROM conf WHERE username=:username AND confname=:confname");
 		} catch (PDOException $e) {
 			$this->dbh=null;
 			showerror($e->getMessage());
@@ -104,6 +109,27 @@ class Db {
 	function activateconf($username, $id, $active) {
 		
 	}
+	
+	/*
+	 * return the conf id
+	 */
+	function logguest($username, $confname, $guestname) {
+		try {
+			$this->logguest_stmt->bindValue(':guestname', $guestname, PDO::PARAM_STR);
+			$this->logguest_stmt->bindValue(':username', $username, PDO::PARAM_STR);
+			$this->logguest_stmt->bindValue(':confname', $confname, PDO::PARAM_STR);
+			$this->dbh->beginTransaction();
+			// strangly, for PDO lastInsertId is not reliable on mysql...
+			//$lastid=$this->dbh->lastInsertId();
+			$this->logguest_stmt->execute();
+			$this->dbh->commit();
+			return true;
+		} catch (PDOException $e) {
+			showerror("Impossible de conserver $guestname dans la liste des participants à la conférence $confname de $username<br>".$e->getMessage());
+			return null;
+		}
+	}
+	
 }
 
 ?>

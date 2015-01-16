@@ -97,6 +97,7 @@ if (!isset($_GET['guestname'])) {
 	} else {
 		$bbbjoinurl=genbbbjoinurl(urlencode($confcreator), urlencode($confname), $role, urlencode($guestname));
 		echo "<iframe src=\"$bbbjoinurl\"><a href=\"$bbbjoinurl\">Rejoindre la conférence</a></iframe>";
+		$db->logguest($confcreator, $confname, $guestname);
 	}
 }
 
