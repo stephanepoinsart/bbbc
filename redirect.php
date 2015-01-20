@@ -104,8 +104,9 @@ if (!isset($_GET['guestname'])) {
 function showbar() {
 	echo "<div id=\"bar\">
 		<div id=\"pingtool\" title=\"qualité de votre connexion : rouge ou supérieur à 300 = problème\"><div id=\"pinggraph\"></div><span id=\"pingnumeric\"></span></div> |
-		<a href=\"".SITE_URL."\" target=\"_blank\"><img class=\"icon\" alt=\"Créez et gérrez vos conférences (utilisateurs UTC)\" src=\"static/img/server_go.png\"/></a> |
-		<a id=\"btn_fs\" href=\"#\" onClick=\"toggleFullScreen();\"><img class=\"icon\" alt=\"Plein écran\" src=\"static/img/arrow_out.png\"/></a>
+		<a href=\"".SITE_URL."\" target=\"_blank\"><img class=\"icon\" alt=\"Retourner à l'écran de gestion des confs (utilisateurs UTC)\" title=\"Créez et gérrez vos conférences (utilisateurs UTC)\" src=\"static/img/server_go.png\"/></a> |
+		<a id=\"btn_fs\" href=\"#\" onClick=\"toggleFullScreen();\"><img class=\"icon\" alt=\"Plein écran\" title=\"Plein écran\" src=\"static/img/arrow_out.png\"/></a> |
+		<a id=\"btn_help\" href=\"http://ics.utc.fr/doc-cap/co/1-creer.html\" target=\"_blank\"><img class=\"icon\" alt=\"Plein écran\" src=\"static/img/help.png\"/> <span class=\"text\">documentation</span></a>
 		</div>";
 }
 
