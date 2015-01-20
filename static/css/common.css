@@ -76,13 +76,19 @@ tbody th {
 	padding-right:6px;
 }
 
-#bar a {
+#btn_help {
 	text-decoration:none;
-	color: #2161F1;
 }
-#bar a .text {
+#btn_help .text {
 	text-decoration:underline;
-	color: #2161F1;
+}
+
+a, a:link, a:visited, a:active {
+	color: #104FDD;
+}
+
+a:hover {
+	color: #437CFF;
 }
 
 #pingtool {
