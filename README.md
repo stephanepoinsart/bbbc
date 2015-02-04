@@ -10,7 +10,7 @@ Install
 -------
 1. unzip content on a webserver path
 2. create a new mysql database and import init.sql in it
-3. copy config.template.php to config.php at tweak it for your environment
+3. copy config.template.php to config.php and tweak it for your environment
 4. to get accurate results with the lattency test, set it to ping your own bbb server :
   * copy upload-to-bbb/ping.jsp to a page where your bbb server will handle JSP (it can be : /var/lib/tomcat6/webapps/demo/ping.jsp )
   * change the hardcoded url at the end of static/js/fullscreen.js to point to your own server and not the UTC server.
