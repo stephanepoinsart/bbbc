@@ -91,13 +91,15 @@ showbuffered();
 <li>Donnez le lien "admin" aux orateurs en qui vous avez confiance, et le lien "utilisateurs" aux autres participants (étudiants...)</li>
 <li>Demandez à chaque participant de tester à l'avance pour éviter d'être surpris par des problèmes (microphone...)</li>
 </ul>
-<h2>A savoir</h2>
-<ul>
-<li>Fonction "Partage de documents" : convertissez toujours les fichiers à partager en PDF. Si vous envoyez directement des fichiers Word/Powerpoint/Excel ou OpenDocument, ceux-ci risquent de ne pas s'afficher de manière optimale.</li>
-<li>Fonction "Partage d'affichage écran" : vous devez installer java, activer les applets java sur votre navigateur, et les autoriser pour le site bbb.utc.fr. Vérifiez ici que vous avez bien la version 1.7.0_72 ou supérieur. Faire fonctionner java est compliqué, donc n'hésitez pas à nous prévenir en cas de problème.</li>
-</ul>
 <p>Guide utilisateur : <a id="btn_help" href="http://ics.utc.fr/doc-cap/co/1-creer.html" target="_blank"><img class="icon" src="static/img/help.png"/> <span class="text">Documentation</span></a></p>
 <p>Contact : <a href="mailto:cap@utc.fr">Cellule d'Appui Pédagogique &lt;cap@utc.fr&gt;</a></p>
+
+<h2>A savoir si vous utilisez...</h2>
+<ul>
+<li>Fonction "Partage de documents" : convertissez toujours les fichiers à partager en PDF. Si vous envoyez directement des fichiers Word/Powerpoint/Excel ou OpenDocument, ceux-ci risquent de ne pas s'afficher de manière optimale.</li>
+<li>Fonction "Partage d'affichage écran" : la personne qui montre son écran doit installer java, activer les applets java sur votre navigateur, et les autoriser pour le site bbb.utc.fr. Vérifiez ici que vous avez bien la version 1.7.0_72 ou supérieur. Ce n'est pas évident, donc n'hésitez pas à nous prévenir en cas de problème.</li>
+</ul>
+
 
 <?php 
 echo "<h2>Créer une nouvelle conférence</h2>
@@ -110,7 +112,10 @@ echo "<h2>Créer une nouvelle conférence</h2>
 
 display_conflist($conflist);
 
+?>
 
-echo "</main>";
+</main>
+
+<?php
 require_once('inc/footer.php');
 ?>

@@ -15,9 +15,13 @@ header h1 {
 	color:#f9ac04;
 }
 h2 {
-	margin-top:0.8em;
+	margin-top:1em;
 	margin-bottom:0.1em;
 	font-size:1.1em;
+}
+
+ul {
+	margin-top:0.2em;
 }
 
 /* dark header: #222222 */
