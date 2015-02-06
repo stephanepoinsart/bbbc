@@ -6,6 +6,7 @@
 define("DB_LOGIN", "bbbc");
 define("DB_PASSWORD", "bbbc");
 define("DB_NAME", "bbbc");
+define("DB_HOST", "localhost");
 
 // site informations are used by BBBC only
 
